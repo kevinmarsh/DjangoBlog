@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{{ block.super }} - {{ subject }}{% endblock %}
+
+{% block content %}
+    <div class="post">
+        <div class="post-heading">
+            <div class="post-title">
+                <a href="post/{{ post.url }}">{{ post.title }}</a>
+            </div>
+            <div class="post-date">
+                {{ post.created }}
+            </div>
+        </div>
+        <div class="post-content">
+            <pre>{{ post.body }}</pre>
+        </div>
+    </div>
+{% endblock %}

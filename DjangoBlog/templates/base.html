@@ -1,0 +1,55 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Simple Blog Run in Django{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    {% block extra_css %}{% endblock extra_css %}
+</head>
+<body>
+    <header>
+        {% block header %}
+            <h1><a href="{% url 'blog_HomePage' %}">Simple Blog Run in Django</a></h1>
+            <div class="login">
+                {% if cookie %}
+                    <a href="/logout">Logout</a>
+                {% else %}
+                    <a href="/signup">Sign Up</a> |
+                    <a href="/login">Login</a>
+                {% endif %}
+            </div>
+        {% endblock header%}
+    </header>
+
+    <div id="content">
+        {% for error in errorMsgs %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        {% block content %}
+            <p>Here is the homepage, the only thing to do is <a href="{% url 'blog_HomePage' %}">check out the blog</a></p>
+        {% endblock %}
+    </div><!-- #content -->
+
+    <footer>
+        {% block footer %}
+            <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/" title="Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License">
+                <span id="year">2013</span>
+                <img src="{% static 'img/cc.png' %}" />
+            </a>
+        {% endblock %}
+    </footer>
+
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="{% static 'js/project.js' %}"></script>
+    {% block extra_js %}{% endblock extra_js %}
+</body>
+</html>

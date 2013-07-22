@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{{ block.super }} - Homepage{% endblock %}
+
+{% block content %}
+    <ul class="blogPosts">
+        {% for post in blogPosts %}
+            <li>
+                <a href="{% url 'blog_SinglePost' post.url %}">{{ post.title }}</a>
+                <span class="post-date">{{ post.created }}</span>
+            </li>
+        {% empty %}
+            <li class='error'>Sorry this blog post does not exist</li>
+        {% endfor %}
+    </ul>
+    <p id="newPostButton"><a href="{% url 'blog_NewPost' %}">Create a new blog post</a></p>
+{% endblock %}
