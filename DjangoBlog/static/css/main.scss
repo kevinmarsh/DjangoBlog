@@ -3,13 +3,32 @@
 /////////////////////////////////////////////////
 $text-color: rgb(150, 150, 150);
 
+// Potato Colors
+$header-bg: #0CC;
+$body-bg: #E7E6C1;
+$text-color: #444444;
+$footer-bg: #ffffff;
+
+@mixin borderRadius($rad) {
+    -moz-border-radius: $rad;
+    -webkit-border-radius: $rad;
+    border-radius: $rad;
+}
+@mixin opacity($trans) {
+    filter: alpha(opacity=($trans * 100)); // IE 5-7
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=" + ($trans * 100) + ")"; // IE 8
+    -moz-opacity: $trans;
+    opacity: $trans;
+}
 /////////////////////////////////////////////////
 // General
 /////////////////////////////////////////////////
 body {
-    max-width: 800px;
-    margin: 12px auto;
+    margin: 0;
+    padding: 0;
     color: $text-color;
+    background-color: $body-bg;
+    font-family: Roboto, Helvetica, Arial, sans-serif;
 }
 a,
 a:visited
@@ -60,15 +79,36 @@ a:active {
 // Header
 /////////////////////////////////////////////////
 header {
+    margin: 0;
+    padding: 8px;
     text-align: center;
+    background-color: $header-bg;
+    border-bottom: 1px solid #00AA9F;
+    h1 a {
+        border-bottom: none;
+        color: black;
+        &:hover {
+            border-bottom: none;
+        }
+    }
+    p {
+        font-size: 14px;
+        color: #066;
+    }
     .login {
         text-align: right;
     }
 }
 
 /////////////////////////////////////////////////
-// Home Page
+// Content
 /////////////////////////////////////////////////
+#content {
+    max-width: 800px;
+    min-height: 400px;
+    margin: 0 auto;
+    background: $body-bg url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAADICAMAAAAeLHvHAAAAWlBM…dvo48VU8knzcydaWV3NHx1j5Qy55fKNSJxo7hzw0L9ewBH3gFAWH57wYAAAAASUVORK5CYII=') bottom repeat-x;
+}
 
 .blogPosts {
     list-style: none;
@@ -83,27 +123,43 @@ header {
     }
 }
 
-/////////////////////////////////////////////////
 // Single Blog Post
-/////////////////////////////////////////////////
 
-/////////////////////////////////////////////////
-// Create New Blog Post
-/////////////////////////////////////////////////
-
+#newPost {
+    label {
+        display: inline-block;
+        width: 60px;
+        margin: 8px 0;
+        vertical-align: top;
+        &:after {
+            content: ':';
+        }
+    }
+    input[type="text"],
+    textarea {
+        @include borderRadius(4px);
+        width: 400px;
+        max-width: 400px;
+        padding: 2px;
+        margin: 8px 0;
+        border: 2px inset;
+    }
+    input[type="submit"] {
+    }
+}
 
 /////////////////////////////////////////////////
 // Footer
 /////////////////////////////////////////////////
 footer {
+    margin: 0;
     padding: 8px;
-    text-align: center;
-    background-color: $text-color;
+    text-align: right;
+    background-color: $footer-bg;
     a {
-    color: rgb(250, 250, 250);
-    color: rgba(250, 250, 250, 0.8);
+        @include opacity(0.8);
         &:hover {
-            color: rgb(250, 250, 250);
+            @include opacity(1);
         }
     }
     img {

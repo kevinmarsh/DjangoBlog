@@ -12,6 +12,7 @@
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
     <link href="{% static 'css/main.css' %}" rel="stylesheet">
     {% block extra_css %}{% endblock extra_css %}
 </head>
@@ -19,6 +20,7 @@
     <header>
         {% block header %}
             <h1><a href="{% url 'blog_HomePage' %}">Simple Blog Run in Django</a></h1>
+            <p>This is just a simple blog written in Django</p>
             <div class="login">
                 {% if cookie %}
                     <a href="/logout">Logout</a>
