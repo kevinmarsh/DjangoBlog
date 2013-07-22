@@ -2,14 +2,15 @@ import string
 import re
 
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+# from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.utils.decorators import method_decorator
+# from django.utils.decorators import method_decorator
 from django.views.generic.base import View
 
 from blog.models import BlogPost
+from mixins import LoginRequiredMixin
 
 
 def titleToUrl(title):
@@ -23,7 +24,7 @@ def titleToUrl(title):
 
 class HomePage(View):
     def get(self, request):
-        blogPosts = BlogPost.objects.all().order_by('-created')
+        blogPosts = BlogPost.objects.filter(published=True).order_by('-created')
         return render(request, 'blog_home.html', {'blogPosts': blogPosts})
 
 
@@ -37,7 +38,7 @@ class SinglePost(View):
         return render(request, 'blog_post.html', {'post': blogPost})
 
 
-class NewPost(View):
+class NewPost(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, 'blog_create.html', {})
 
@@ -45,6 +46,7 @@ class NewPost(View):
         subject = request.POST['subject']
         content = request.POST['content']
         slug = titleToUrl(subject)
+        published = request.POST['published'] == 'published'
 
         if not subject:
             messages.add_message(request, messages.INFO, 'Please add a subject.')
@@ -54,22 +56,20 @@ class NewPost(View):
             messages.add_message(request, messages.INFO, 'Please rename, you\'ve used that title before.')
         if messages.get_messages(request):
             params = {'subject': subject,
-                      'content': content}
+                      'content': content,
+                      'published': published}
             return render(request, 'blog_create.html', params)
         else:
             post = BlogPost(title=subject,
                             body=content,
-                            slug=slug)
+                            slug=slug,
+                            published=published)
             post.save()
             messages.add_message(request, messages.SUCCESS, 'Blog post created.')
             return HttpResponseRedirect(reverse('blog_SinglePost', args=(slug,)))
 
 
-class EditPost(View):
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(EditPost, self).dispatch(*args, **kwargs)
-
+class EditPost(LoginRequiredMixin, View):
     def get(self, request, id):
         try:
             blogPost = BlogPost.objects.get(id=id)
@@ -88,6 +88,7 @@ class EditPost(View):
         title = request.POST['title']
         body = request.POST['body']
         slug = request.POST['slug']
+        published = request.POST['published'] == 'published'
         if not title:
             messages.add_message(request, messages.INFO, 'Please add a title.')
         if not body:
@@ -97,12 +98,14 @@ class EditPost(View):
         if messages.get_messages(request):
             blogPost = {'title': title,
                         'body': body,
-                        'slug': slug}
+                        'slug': slug,
+                        'published': published}
             return render(request, 'blog_edit.html', {'post': blogPost})
 
         blogPost.title = title
         blogPost.body = body
         blogPost.slug = slug
+        blogPost.published = published
         blogPost.save()
         messages.add_message(request, messages.SUCCESS, 'Blog post edited.')
         return HttpResponseRedirect(reverse('blog_SinglePost', args=(slug,)))

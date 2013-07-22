@@ -2,19 +2,19 @@
 {% block title %}{{ block.super }} - Admin All Blog Posts{% endblock %}
 
 {% block content %}
-    <form class="adminPostFilter">
+    <form class="adminFilter">
         <p>Show:</p>
-        <input type="radio" name="displayPosts" id="radioAll" value="all" checked />
+        <input type="radio" name="adminFilter" id="radioAll" value="all" checked />
         <label for="radioAll">All</label>
         <br>
-        <input type="radio" name="displayPosts" id="radioPublished" value="published" />
+        <input type="radio" name="adminFilter" id="radioPublished" value="published" />
         <label for="radioPublished">Published</label>
         <br>
-        <input type="radio" name="displayPosts" id="radioUnpublished" value="unpublished" />
+        <input type="radio" name="adminFilter" id="radioUnpublished" value="unpublished" />
         <label for="radioUnpublished">Unpublished</label>
     </form>
 
-    <table class="adminListPosts">
+    <table class="adminList">
         <tr>
             <td>id</td>
             <td>title</td>
@@ -36,19 +36,4 @@
             <tr><td colspan="6">Sorry no posts to display</td></tr>
         {% endfor %}
     </table>
-
-{% comment %}
-    <ul class="blogPosts">
-        {% for post in blogPosts %}
-            <li class="{% if post.published %}published{% else %}unpublished{% endif %}">
-                <a class="edit" href="{% url 'blog_EditPost' post.id %}">Edit</a>
-                <a href="{% url 'blog_SinglePost' post.slug %}">{{ post.title }}</a>
-                <span class="post-date">{{ post.created }}</span>
-            </li>
-        {% empty %}
-            <li class='error'>Sorry there are no blog posts yet</li>
-        {% endfor %}
-    </ul>
-    <p id="newPostButton"><a href="{% url 'blog_NewPost' %}">Create a new blog post</a></p>
-{% endcomment %}
 {% endblock %}

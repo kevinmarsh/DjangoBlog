@@ -8,6 +8,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic.base import View
 
+from mixins import LoginRequiredMixin
 
 USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,100}$")
 PASSWORD_RE = re.compile(r"^.{6,100}$")
@@ -61,7 +62,7 @@ class Logout(View):
         return HttpResponseRedirect(reverse('blog_HomePage'))
 
 
-class SignUp(View):
+class SignUp(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, 'sign_up.html', {})
 
@@ -87,7 +88,5 @@ class SignUp(View):
             return render(request, 'sign_up.html', params)
         else:
             newUser = User.objects.create_user(username, email, password)
-            newUser = authenticate(username=username, password=password)
-            login(request, newUser)
-            messages.add_message(request, messages.SUCCESS, 'Welcome %s!' % username)
-            return HttpResponseRedirect(reverse('blog_HomePage'))
+            messages.add_message(request, messages.SUCCESS, 'New user %s created!' % newUser.username)
+            return HttpResponseRedirect(reverse('admin_AdminUserList'))

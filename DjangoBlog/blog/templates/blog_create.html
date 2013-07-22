@@ -11,6 +11,10 @@
         <label for="newContent">Content</label>
         <textarea name="content" id="newContent">{{ content }}</textarea>
         <br>
+        <label for="published">Published</label>
+        <input type="radio" name="published" value="published" {% if post.published %}checked {% endif %}/>Yes
+        <input type="radio" name="published" value="unpublished" {% if not post.published %}checked {% endif %}/>No
+        <br>
         <input type="submit">
     </form>
 {% endblock %}

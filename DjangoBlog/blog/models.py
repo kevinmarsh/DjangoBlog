@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.db import models
 
 class TimeStampedModel(models.Model):
@@ -13,7 +13,7 @@ class BlogPost(TimeStampedModel):
     title = models.CharField(max_length=30)
     body = models.TextField()
     slug = models.SlugField(null=False, unique=True)
-    published = models.BooleanField(default=False)
+    published = models.BooleanField(default=True)
 
     # TODO: add these as a kind of history on the post page
     # created_by = models.ForeignKey(User)

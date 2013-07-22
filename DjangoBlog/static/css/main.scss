@@ -100,14 +100,23 @@ input[type='submit'] {
     }
     .success {
         background-color: #3FC000;  // Green
+        border: 1px solid darken(#3FC000, 5%);
         span {
             background-position: -288px 0;
         }
     }
     .info {
         background-color: #C00000;  // Red
+        border: 1px solid darken(#C00000, 5%);
         span {
             background-position: -312px 0;
+        }
+    }
+    .warning {
+        background-color: #DAE700;  // Yellow
+        border: 1px solid darken(#DAE700, 5%);
+        span {
+            background-position: 0 -119px;
         }
     }
 }
@@ -166,7 +175,7 @@ header {
 #editPost {
     label {
         display: inline-block;
-        width: 60px;
+        width: 90px;
         margin: 8px 0;
         vertical-align: top;
         &:after {
@@ -183,10 +192,11 @@ header {
         margin: 8px 0;
         border: 2px inset;
     }
+    input[type="radio"] {
+        margin-top: 12px;
+    }
     textarea {
         height: 140px;
-    }
-    input[type="submit"] {
     }
 }
 
@@ -209,7 +219,7 @@ header {
 /////////////////////////////////////////////////
 // Admin
 /////////////////////////////////////////////////
-.adminPostFilter {
+.adminFilter {
     margin: 20px 0;
     p {
         display: inline-block;
@@ -219,7 +229,7 @@ header {
         height: 60px;
     }
 }
-.adminListPosts {
+.adminList {
     width: 100%;
     border-collapse: collapse;
     tr {

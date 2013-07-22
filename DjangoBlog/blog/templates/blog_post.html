@@ -3,6 +3,11 @@
 
 {% block content %}
     {% if user.is_authenticated %}
+        {% if not post.published %}
+            <ul class="messages">
+                <li class="warning"><span></span>Warning: Post not published.</li>
+            </ul>
+        {% endif %}
         <p class="edit"><a href="{% url 'blog_EditPost' post.id %}">Edit</a></p>
     {% endif %}
     <div class="post">
