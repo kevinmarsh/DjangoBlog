@@ -72,21 +72,23 @@ class SignUp(LoginRequiredMixin, View):
         verify = request.POST['verify']
         email = request.POST['email']
 
-        errorMsgs = []
         if not valid_username(username):
-            errorMsgs.append('Sorry that is not a valid username, letters and numbers only.')
+            messages.add_message(request, messages.INFO, 'Sorry that is not a valid username, letters and numbers only.')
         if User.objects.filter(username=username):
-            errorMsgs.append('Sorry that username is taken.')
+            messages.add_message(request, messages.INFO, 'Sorry that username is taken.')
         if not valid_password(password) or password != verify:
-            errorMsgs.append('Ensure your passwords match and are at least 6 charecters.')
+            messages.add_message(request, messages.INFO, 'Ensure your passwords match and are at least 6 charecters.')
         if not valid_email(email):
-            errorMsgs.append('That is not a valid email address.')
-        if errorMsgs:
+            messages.add_message(request, messages.INFO, 'That is not a valid email address.')
+        if messages.get_messages(request):
             params = {'username': username,
-                      'email': email,
-                      'errorMsgs': errorMsgs}
+                      'email': email}
             return render(request, 'sign_up.html', params)
         else:
             newUser = User.objects.create_user(username, email, password)
             messages.add_message(request, messages.SUCCESS, 'New user %s created!' % newUser.username)
             return HttpResponseRedirect(reverse('admin_AdminUserList'))
+
+
+class EditUser(LoginRequiredMixin, View):
+    pass

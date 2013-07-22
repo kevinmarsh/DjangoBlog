@@ -32,7 +32,7 @@
                 <td>{{ user.date_joined }}</td>
                 <td>{{ user.last_login }}</td>
                 <td>{{ user.is_active }}</td>
-                <td><a class="edit" href="{% url 'blog_EditPost' user.id %}">Edit</a></td>
+                <td><a class="edit" href="{% url 'users_EditUser' user.id %}">Edit</a></td>
             </tr>
         {% empty %}
             <tr><td colspan="7">Sorry no users to display</td></tr>
