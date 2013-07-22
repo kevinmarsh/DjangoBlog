@@ -87,18 +87,28 @@ a:active {
     li {
         @include borderRadius;
         margin: 14px 0;
-        padding: 4px 0 4px 25px;
+        padding: 4px;
         color: white;
+        span {
+            display: inline-block;
+            margin: 0px 8px;
+            height: 14px;
+            width: 14px;
+            background-image: url("../img/glyphicons-halflings-white.png");
+            background-repeat: no-repeat;
+        }
+    }
+    .success {
+        background-color: #3FC000;  // Green
+        span {
+            background-position: -288px 0;
+        }
     }
     .info {
-        background-color: #3FC000;  // Green
-        // background-position: -288px 0;
-        // background-image: url("../img/glyphicons-halflings-white.png");
-        // background-position: 14px 14px;
-        // background-repeat: no-repeat;
-    }
-    .error {
         background-color: #C00000;  // Red
+        span {
+            background-position: -312px 0;
+        }
     }
 }
 
@@ -180,12 +190,18 @@ header {
 }
 
 /////////////////////////////////////////////////
-// Blog Content
+// Users Content
 /////////////////////////////////////////////////
 #newUser{
     @extend #newPost;
     label {
         width: 120px;
+    }
+}
+#login {
+    @extend #newPost;
+    label {
+        width: 80px;
     }
 }
 

@@ -5,7 +5,7 @@
     <ul class="blogPosts">
         {% for post in blogPosts %}
             <li>
-                <a href="{% url 'blog_SinglePost' post.url %}">{{ post.title }}</a>
+                <a href="{% url 'blog_SinglePost' post.slug %}">{{ post.title }}</a>
                 <span class="post-date">{{ post.created }}</span>
             </li>
         {% empty %}

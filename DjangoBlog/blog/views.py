@@ -1,6 +1,8 @@
 import string
 import re
 
+from django.contrib import messages
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic.base import View
@@ -25,7 +27,7 @@ class HomePage(View):
 
 class SinglePost(View):
     def get(self, request, slug):
-        blogPost = BlogPost.objects.get(url=slug)
+        blogPost = BlogPost.objects.get(slug=slug)
         return render(request, 'blog_post.html', {'post': blogPost})
 
 
@@ -36,24 +38,22 @@ class NewPost(View):
     def post(self, request):
         subject = request.POST['subject']
         content = request.POST['content']
-        url = titleToUrl(subject)
-        urlIsUnique = (BlogPost.objects.filter(url=url).count() == 0)
+        slug = titleToUrl(subject)
 
-        if subject and content and urlIsUnique:
+        if not subject:
+            messages.add_message(request, messages.INFO, 'Please add a subject.')
+        if not content:
+            messages.add_message(request, messages.INFO, 'Please add some content.')
+        if not BlogPost.objects.filter(slug=slug).count() == 0:
+            messages.add_message(request, messages.INFO, 'Please rename, you\'ve used that title before.')
+        if messages.get_messages(request):
+            params = {'subject': subject,
+                      'content': content}
+            return render(request, 'blog_create.html', params)
+        else:
             post = BlogPost(title=subject,
                             body=content,
-                            url=url)
+                            slug=slug)
             post.save()
-            return HttpResponseRedirect('/blog/post/' + url)
-        else:
-            errorMsgs = []
-            if not subject:
-                errorMsgs.append('Please add a subject')
-            if not content:
-                errorMsgs.append('Please add some content')
-            if not urlIsUnique:
-                errorMsgs.append('Please rename, you\'ve used that title before.')
-            params = {'subject': subject,
-                      'content': content,
-                      'errorMsg': errorMsgs}
-            return render(request, 'blog_create.html', params)
+            messages.add_message(request, messages.SUCCESS, 'Blog post created.')
+            return HttpResponseRedirect(reverse('blog_SinglePost', args=(slug,)))

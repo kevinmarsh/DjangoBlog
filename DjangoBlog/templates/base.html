@@ -9,7 +9,7 @@
     <meta name="author" content="">
 
     <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
@@ -22,13 +22,13 @@
             <h1><a href="{% url 'blog_HomePage' %}">Simple Blog Run in Django</a></h1>
             <p>This is just a simple blog written in Django</p>
             <div class="login">
-                {% if cookie %}
-                    <a href="/logout">Logout</a>
+                {% if user.is_authenticated %}
+                    Hello {{ user.username }} | <a href="{% url 'users_Logout' %}">Logout</a>
                 {% else %}
                     <a href="{% url 'users_SignUp' %}">Sign Up</a> |
-                    <a href="/login">Login</a>
+                    <a href="{% url 'users_Login' %}">Login</a>
                 {% endif %}
-            </div>
+            </div> <!-- #login -->
         {% endblock header%}
     </header>
 
@@ -36,16 +36,10 @@
         {% if messages %}
             <ul class="messages">
                 {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}><span></span>{{ message }}</li>
                 {% endfor %}
             </ul>
         {% endif %}
-        {% for msg in msgs %}
-            <p class="msg">{{ msg }}</p>
-        {% endfor %}
-        {% for error in errorMsgs %}
-            <p class="error">{{ error }}</p>
-        {% endfor %}
         {% block content %}
             <p>Here is the homepage, the only thing to do is <a href="{% url 'blog_HomePage' %}">check out the blog</a></p>
         {% endblock %}
