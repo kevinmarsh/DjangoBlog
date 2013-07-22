@@ -13,7 +13,9 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'DjangoBlog.views.home', name='home'),
     url(r'^blog/', include('blog.urls')),
+    # url(r'^blog/', include('blog.urls', namespace='blog')),
     url(r'^users/', include('users.urls')),
+    # url(r'^users/', include('users.urls', namespace='users')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

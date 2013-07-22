@@ -1,6 +1,8 @@
 import re
 
-from django.shortcuts import render, redirect
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.views.generic.base import View
 
 from users.models import User
@@ -73,7 +75,10 @@ class SignUp(View):
                            password=password,
                            email=email)
             newUser.save()
-            return redirect('blog_HomePage', msgs=['Welcome %s' % username])
+            from django.contrib import messages
+            messages.add_message(request, messages.INFO, 'Welcome %s' % username)
+            return HttpResponseRedirect(reverse('blog_HomePage'))
+            # return redirect('blog_HomePage', msgs=['Welcome %s' % username])
 
 
 def signUp(request):
