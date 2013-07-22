@@ -10,17 +10,13 @@
         {% endif %}
         <p class="edit"><a href="{% url 'blog_EditPost' post.id %}">Edit</a></p>
     {% endif %}
-    <div class="post">
-        <div class="post-heading">
-            <div class="post-title">
-                <a href="{% url 'blog_SinglePost' post.slug %}">{{ post.title }}</a>
-            </div>
-            <div class="post-date">
-                {{ post.created }}
-            </div>
-        </div>
-        <div class="post-content">
+    <article>
+        <header>
+            <h2><a href="{% url 'blog_SinglePost' post.slug %}">{{ post.title }}</a></h2>
+            <p>{{ post.created }}</p>
+        </header>
+        <section>
             <pre>{{ post.body }}</pre>
-        </div>
-    </div>
+        </section>
+    </article>
 {% endblock %}
