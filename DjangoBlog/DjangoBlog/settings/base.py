@@ -153,6 +153,7 @@ TEMPLATE_LOADERS = (
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
 TEMPLATE_DIRS = (
     normpath(join(SITE_ROOT, 'templates')),
+    normpath(join(SITE_ROOT, 'admin/templates')),
     normpath(join(SITE_ROOT, 'blog/templates')),
     normpath(join(SITE_ROOT, 'users/templates')),
 )
@@ -193,7 +194,7 @@ DJANGO_APPS = (
     # 'django.contrib.humanize',
 
     # Admin panel and documentation:
-    'django.contrib.admin',
+    # 'django.contrib.admin',
     # 'django.contrib.admindocs',
 )
 

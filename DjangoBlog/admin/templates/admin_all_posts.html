@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}{{ block.super }} - Admin All Blog Posts{% endblock %}
+
+{% block content %}
+    <form class="adminPostFilter">
+        <p>Show:</p>
+        <input type="radio" name="displayPosts" id="radioAll" value="all" checked />
+        <label for="radioAll">All</label>
+        <br>
+        <input type="radio" name="displayPosts" id="radioPublished" value="published" />
+        <label for="radioPublished">Published</label>
+        <br>
+        <input type="radio" name="displayPosts" id="radioUnpublished" value="unpublished" />
+        <label for="radioUnpublished">Unpublished</label>
+    </form>
+
+    <table class="adminListPosts">
+        <tr>
+            <td>id</td>
+            <td>title</td>
+            <td>published</td>
+            <td>created</td>
+            <td>modified</td>
+            <td>edit</td>
+        </tr>
+        {% for post in blogPosts %}
+            <tr class="{% if post.published %}published{% else %}unpublished{% endif %}{% cycle ' alt' '' %}">
+                <td>{{ post.id }}</td>
+                <td><a href="{% url 'blog_SinglePost' post.slug %}">{{ post.title }}</a></td>
+                <td>{{ post.published }}</td>
+                <td>{{ post.created }}</td>
+                <td>{{ post.modified }}</td>
+                <td><a class="edit" href="{% url 'blog_EditPost' post.id %}">Edit</a></td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="6">Sorry no posts to display</td></tr>
+        {% endfor %}
+    </table>
+
+{% comment %}
+    <ul class="blogPosts">
+        {% for post in blogPosts %}
+            <li class="{% if post.published %}published{% else %}unpublished{% endif %}">
+                <a class="edit" href="{% url 'blog_EditPost' post.id %}">Edit</a>
+                <a href="{% url 'blog_SinglePost' post.slug %}">{{ post.title }}</a>
+                <span class="post-date">{{ post.created }}</span>
+            </li>
+        {% empty %}
+            <li class='error'>Sorry there are no blog posts yet</li>
+        {% endfor %}
+    </ul>
+    <p id="newPostButton"><a href="{% url 'blog_NewPost' %}">Create a new blog post</a></p>
+{% endcomment %}
+{% endblock %}

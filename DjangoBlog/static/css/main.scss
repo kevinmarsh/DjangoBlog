@@ -207,6 +207,34 @@ header {
 }
 
 /////////////////////////////////////////////////
+// Admin
+/////////////////////////////////////////////////
+.adminPostFilter {
+    margin: 20px 0;
+    p {
+        display: inline-block;
+        float: left;
+        vertical-align: top;
+        margin: 0 6px 0 0;
+        height: 60px;
+    }
+}
+.adminListPosts {
+    width: 100%;
+    border-collapse: collapse;
+    tr {
+        line-height: 2;
+        td {
+            border: 1px $text-color solid;
+            padding: 4px;
+        }
+    }
+    .alt {
+        background-color: lighten($body-bg, 10%);
+    }
+}
+
+/////////////////////////////////////////////////
 // Footer
 /////////////////////////////////////////////////
 footer {

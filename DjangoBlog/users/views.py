@@ -2,12 +2,12 @@ import re
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic.base import View
 
-from django.contrib.auth.models import User
 
 USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,100}$")
 PASSWORD_RE = re.compile(r"^.{6,100}$")

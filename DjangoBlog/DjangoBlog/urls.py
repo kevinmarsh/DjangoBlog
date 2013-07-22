@@ -1,10 +1,10 @@
 from django.conf.urls import patterns, include, url
-from django.contrib import admin
+# from django.contrib import admin
 from django.views.generic import TemplateView
 
 # from blog.views import HomePage
 
-admin.autodiscover()
+# admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', TemplateView.as_view(template_name='base.html')),
@@ -12,8 +12,11 @@ urlpatterns = patterns('',
 
     url(r'^blog/', include('blog.urls')),
     url(r'^users/', include('users.urls')),
+    url(r'^admin/', include('admin.urls')),
 
-    url(r'^admin/', include(admin.site.urls)),
+    # url(r'^admin/posts', include(admin.site.urls)),
+    # url(r'^admin/users', include(admin.site.urls)),
+    # url(r'^admin/', include(admin.site.urls)),
 )
 
 
