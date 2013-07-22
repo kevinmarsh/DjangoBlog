@@ -12,5 +12,11 @@ class TimeStampedModel(models.Model):
 class BlogPost(TimeStampedModel):
     title = models.CharField(max_length=30)
     body = models.TextField()
-    # tags = models.CharField(repeated=True)
     url = models.SlugField(unique=True)
+
+    def __unicode__(self):
+        return '%s' % self.title
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('blog_SinglePost', None, {'slug': self.url})

@@ -7,7 +7,7 @@
     <form id="newPost" method="post">
         {% csrf_token %}
         <label for="newSubject">Subject</label>
-        <input type="text" name="subject" id="newSubject" value="{{ subject }}">
+        <input type="text" name="subject" id="newSubject" value="{{ subject }}" autofocus>
         <br>
         <label for="newContent">Content</label>
         <textarea name="content" id="newContent">{{ content }}</textarea>

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ block.super }} - Create a New Account{% endblock %}
+
+{% block content %}
+    <h2>Create a New Account</h2>
+
+    <form id="newUser" method="post">
+        {% csrf_token %}
+        <label for="newUsername">Username</label>
+        <input type="text" name="username" id="newUsername" value="{{ username }}" autofocus>
+        <br>
+        <label for="newPassword">Verify Password</label>
+        <input type="password" name="password" id="newPassword" value="">
+        <br>
+        <label for="newVerify">Password</label>
+        <input type="password" name="verify" id="newVerify" value="">
+        <br>
+        <label for="newEmail">Email</label>
+        <input type="text" name="email" id="newEmail" value="{{ email }}">
+        <br>
+        <input type="submit">
+    </form>
+{% endblock %}

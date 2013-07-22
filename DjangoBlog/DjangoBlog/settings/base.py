@@ -192,8 +192,6 @@ DJANGO_APPS = (
     # Admin panel and documentation:
     'django.contrib.admin',
     # 'django.contrib.admindocs',
-    'blog',
-    'users',
 )
 
 THIRD_PARTY_APPS = (
@@ -203,6 +201,8 @@ THIRD_PARTY_APPS = (
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
+    'blog',
+    'users',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

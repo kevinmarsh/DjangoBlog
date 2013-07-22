@@ -1,7 +1,9 @@
+// Kevin Marsh - July 2013
 /////////////////////////////////////////////////
-// SASSS
+
 /////////////////////////////////////////////////
-$text-color: rgb(150, 150, 150);
+// SASSS Variables and Mixins
+/////////////////////////////////////////////////
 
 // Potato Colors
 $header-bg: #0CC;
@@ -9,9 +11,10 @@ $body-bg: #E7E6C1;
 $text-color: #444444;
 $footer-bg: #ffffff;
 
-@mixin borderRadius($rad) {
+@mixin borderRadius($rad: 4px) {
     -moz-border-radius: $rad;
     -webkit-border-radius: $rad;
+    -ms-border-radius: $rad;
     border-radius: $rad;
 }
 @mixin opacity($trans) {
@@ -101,7 +104,7 @@ header {
 }
 
 /////////////////////////////////////////////////
-// Content
+// Blog Content
 /////////////////////////////////////////////////
 #content {
     max-width: 800px;
@@ -136,15 +139,29 @@ header {
         }
     }
     input[type="text"],
+    input[type="password"],
     textarea {
-        @include borderRadius(4px);
+        @include borderRadius;
         width: 400px;
         max-width: 400px;
         padding: 2px;
         margin: 8px 0;
         border: 2px inset;
     }
+    textarea {
+        height: 140px;
+    }
     input[type="submit"] {
+    }
+}
+
+/////////////////////////////////////////////////
+// Blog Content
+/////////////////////////////////////////////////
+#newUser{
+    @extend #newPost;
+    label {
+        width: 120px;
     }
 }
 

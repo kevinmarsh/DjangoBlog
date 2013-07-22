@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'DjangoBlog.views.home', name='home'),
     url(r'^blog/', include('blog.urls')),
+    url(r'^users/', include('users.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -20,16 +21,3 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
 )
-
-# urlpatterns += patterns('blog.views',
-#     url(r'^$', 'home'),
-#     url(r'^date/$', 'currentTime'),
-#     url(r'^newpost/$', 'newPost'),
-#     url(r'^post/.+$', 'singlePost'),
-# )
-
-# urlpatterns += patterns('users.views',
-#     url(r'^login/$', 'login'),
-#     url(r'^logout/$', 'logout'),
-#     url(r'^signup/$', 'signUp'),
-# )
