@@ -12,8 +12,8 @@ class TimeStampedModel(models.Model):
 class BlogPost(TimeStampedModel):
     title = models.CharField(max_length=30)
     body = models.TextField()
-    slug = models.SlugField(unique=True)
-    published = models.BooleanField(default=True)
+    slug = models.SlugField(null=False, unique=True)
+    published = models.BooleanField(default=False)
 
     def __unicode__(self):
         return '%s' % self.title

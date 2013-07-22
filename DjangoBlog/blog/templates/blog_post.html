@@ -2,10 +2,13 @@
 {% block title %}{{ block.super }} - {{ subject }}{% endblock %}
 
 {% block content %}
+    {% if user.is_authenticated %}
+        <p class="edit"><a href="{% url 'blog_EditPost' post.id %}">Edit</a></p>
+    {% endif %}
     <div class="post">
         <div class="post-heading">
             <div class="post-title">
-                <a href="post/{{ post.slug }}">{{ post.title }}</a>
+                <a href="{% url 'blog_SinglePost' post.slug %}">{{ post.title }}</a>
             </div>
             <div class="post-date">
                 {{ post.created }}

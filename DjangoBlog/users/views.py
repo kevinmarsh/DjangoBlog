@@ -7,7 +7,6 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic.base import View
 
-# from users.models import User
 from django.contrib.auth.models import User
 
 USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,100}$")
@@ -44,6 +43,9 @@ class Login(View):
             if user.is_active:
                 login(request, user)
                 messages.add_message(request, messages.SUCCESS, 'Welcome back %s!' % username)
+                redirectUrl = request.GET.get('next')
+                if redirectUrl:
+                    return HttpResponseRedirect(redirectUrl)
                 return HttpResponseRedirect(reverse('blog_HomePage'))
             else:
                 messages.add_message(request, messages.INFO, 'Sorry that account has been disabled.')

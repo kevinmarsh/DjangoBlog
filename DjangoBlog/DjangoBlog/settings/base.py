@@ -74,6 +74,9 @@ USE_L10N = True
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#use-tz
 USE_TZ = True
+
+LOGIN_URL = '/users/login'
+LOGIN_REDIRECT_URL = '/users/login'
 ########## END GENERAL CONFIGURATION
 
 

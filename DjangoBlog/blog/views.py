@@ -2,9 +2,11 @@ import string
 import re
 
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.utils.decorators import method_decorator
 from django.views.generic.base import View
 
 from blog.models import BlogPost
@@ -27,7 +29,11 @@ class HomePage(View):
 
 class SinglePost(View):
     def get(self, request, slug):
-        blogPost = BlogPost.objects.get(slug=slug)
+        try:
+            blogPost = BlogPost.objects.get(slug=slug)
+        except BlogPost.DoesNotExist:
+            messages.add_message(request, messages.INFO, 'That blog post does not exist.')
+            return HttpResponseRedirect(reverse('blog_HomePage'))
         return render(request, 'blog_post.html', {'post': blogPost})
 
 
@@ -57,3 +63,46 @@ class NewPost(View):
             post.save()
             messages.add_message(request, messages.SUCCESS, 'Blog post created.')
             return HttpResponseRedirect(reverse('blog_SinglePost', args=(slug,)))
+
+
+class EditPost(View):
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(EditPost, self).dispatch(*args, **kwargs)
+
+    def get(self, request, id):
+        try:
+            blogPost = BlogPost.objects.get(id=id)
+        except BlogPost.DoesNotExist:
+            messages.add_message(request, messages.INFO, 'That blog post does not exist.')
+            return HttpResponseRedirect(reverse('blog_HomePage'))
+        return render(request, 'blog_edit.html', {'post': blogPost})
+
+    def post(self, request, id):
+        try:
+            blogPost = BlogPost.objects.get(id=id)
+        except BlogPost.DoesNotExist:
+            messages.add_message(request, messages.INFO, 'That blog post does not exist.')
+            return HttpResponseRedirect(reverse('blog_HomePage'))
+
+        title = request.POST['title']
+        body = request.POST['body']
+        slug = request.POST['slug']
+        if not title:
+            messages.add_message(request, messages.INFO, 'Please add a title.')
+        if not body:
+            messages.add_message(request, messages.INFO, 'Please add some content.')
+        if title and not BlogPost.objects.filter(slug=slug).exclude(id=id).count() == 0:
+            messages.add_message(request, messages.INFO, 'Please rename, you\'ve used that title before.')
+        if messages.get_messages(request):
+            blogPost = {'title': title,
+                        'body': body,
+                        'slug': slug}
+            return render(request, 'blog_edit.html', {'post': blogPost})
+
+        blogPost.title = title
+        blogPost.body = body
+        blogPost.slug = slug
+        blogPost.save()
+        messages.add_message(request, messages.SUCCESS, 'Blog post edited.')
+        return HttpResponseRedirect(reverse('blog_SinglePost', args=(slug,)))
