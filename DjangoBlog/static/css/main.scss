@@ -203,7 +203,8 @@ article {
     }
 }
 #newPostButton a,
-.edit a {
+.edit a, 
+.delete {
     @extend %cssButton;
 }
 #newPost,

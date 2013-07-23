@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}{{ block.super }} - Edit {{ title }}{% endblock %}
+{% block title %}{{ block.super }} - Edit {{ post.title }}{% endblock %}
 
 {% block content %}
     <h2>Edit Post</h2>
@@ -19,5 +19,9 @@
         <input type="radio" name="published" value="unpublished" {% if not post.published %}checked {% endif %}/>No
         <br>
         <input type="submit">
+    </form>
+    <form>
+        {% csrf_token %}
+        <button class="delete" data-deleteLink="{% url 'blog_DeletePost' %}" data-postId="{{ post.id }}" data-homeLink="{% url 'blog_HomePage' %}">Delete Post</button>
     </form>
 {% endblock %}

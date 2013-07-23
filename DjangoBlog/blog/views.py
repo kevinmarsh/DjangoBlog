@@ -1,13 +1,13 @@
-import string
+import json
 import re
+import string
 
 from django.contrib import messages
-# from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
-# from django.utils.decorators import method_decorator
 from django.views.generic.base import View
+
 
 from blog.models import BlogPost
 from mixins import LoginRequiredMixin
@@ -109,3 +109,17 @@ class EditPost(LoginRequiredMixin, View):
         blogPost.save()
         messages.add_message(request, messages.SUCCESS, 'Blog post edited.')
         return HttpResponseRedirect(reverse('blog_SinglePost', args=(slug,)))
+
+
+class DeletePost(LoginRequiredMixin, View):
+    def post(self, request):
+        postId = request.POST.get('postId')
+        response_data = {'result': 'success'}
+        try:
+            bp = BlogPost.objects.get(id=postId)
+            messages.add_message(request, messages.INFO, '"%s" has been deleted.' % bp.title)
+            bp.delete()
+        except BlogPost.DoesNotExist:
+            response_data['result'] = 'fail'
+
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
