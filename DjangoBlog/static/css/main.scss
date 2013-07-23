@@ -239,7 +239,7 @@ article {
 /////////////////////////////////////////////////
 // Users Content
 /////////////////////////////////////////////////
-#newUser{
+#newUser, #editUser {
     @extend #newPost;
     label {
         width: 120px;
@@ -255,6 +255,13 @@ article {
 /////////////////////////////////////////////////
 // Admin
 /////////////////////////////////////////////////
+.adminHome {
+    margin: 20px auto;
+    text-align: center;
+    a {
+        @extend %cssButton;
+    }
+}
 .adminFilter {
     margin: 20px 0;
     p {

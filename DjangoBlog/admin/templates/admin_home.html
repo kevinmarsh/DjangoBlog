@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}{{ block.super }} - Admin{% endblock %}
+
+{% block content %}
+    <section class="adminHome">
+        <a href="{% url 'admin_AdminPostList' %}">View All Posts</a>
+        <a href="{% url 'admin_AdminUserList' %}">View All Users</a>
+        <a href="{% url 'users_SignUp' %}">Create New User</a>
+    </section>
+{% endblock %}

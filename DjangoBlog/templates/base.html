@@ -21,8 +21,8 @@
             <p>Just a simple blog written in Django</p>
             <div class="login">
                 {% if user.is_authenticated %}
-                    Hello {{ user.username }} | 
-                    <a href="{% url 'users_SignUp' %}">Create New User</a> |
+                    Hello <a href="{% url 'users_EditUser' user.id %}">{{ user.username }}</a> | 
+                    <a href="{% url 'admin_AdminHome' %}">Admin</a> |
                     <a href="{% url 'users_Logout' %}">Logout</a>
                 {% else %}
                     <a href="{% url 'users_Login' %}">Login</a>

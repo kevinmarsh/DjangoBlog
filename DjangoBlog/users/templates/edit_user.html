@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}{{ block.super }} - Edit {{ editUser.username }}{% endblock %}
+
+{% block content %}
+    <h2>Edit {{ editUser.username }}</h2>
+
+    <form id="editUser" method="post">
+        {% csrf_token %}
+        <label for="newUsername">Username</label>
+        <input type="text" name="username" id="newUsername" value="{{ editUser.username }}" autofocus>
+        <br>
+        <label for="newPassword">New Password</label>
+        <input type="password" name="password" id="newPassword" value="">
+        <br>
+        <label for="newVerify" title="Verify the new password.">Verify Password</label>
+        <input type="password" name="verify" id="newVerify" value="">
+        <br>
+        <label for="newEmail">Email</label>
+        <input type="text" name="email" id="newEmail" value="{{ editUser.email }}">
+        <br>
+        <label for="active">Active</label>
+        <input type="radio" name="active" value="active" {% if editUser.is_active %}checked {% endif %}/>Yes
+        <input type="radio" name="active" value="inactive" {% if not editUser.is_active %}checked {% endif %}/>No
+        <br>
+        <input type="submit">
+    </form>
+{% endblock %}

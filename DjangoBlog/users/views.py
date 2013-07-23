@@ -91,4 +91,37 @@ class SignUp(LoginRequiredMixin, View):
 
 
 class EditUser(LoginRequiredMixin, View):
-    pass
+    def get(self, request, id):
+        user = User.objects.get(id=id)
+        return render(request, 'edit_user.html', {'editUser': user})
+
+    def post(self, request, id):
+        user = User.objects.get(id=id)
+        username = request.POST['username']
+        password = request.POST['password']
+        verify = request.POST['verify']
+        email = request.POST['email']
+        active = request.POST['active'] == 'active'
+
+        if not valid_username(username):
+            messages.add_message(request, messages.INFO, 'Sorry that is not a valid username, letters and numbers only.')
+        if User.objects.filter(username=username).exclude(id=id):
+            messages.add_message(request, messages.INFO, 'Sorry that username is taken.')
+        if (password and verify) and not valid_password(password) or password != verify:
+            messages.add_message(request, messages.INFO, 'Ensure your passwords match and are at least 6 charecters.')
+        if email and not valid_email(email):
+            messages.add_message(request, messages.INFO, 'That is not a valid email address.')
+        if messages.get_messages(request):
+            params = {'username': username,
+                      'email': email,
+                      'is_active': active}
+            return render(request, 'edit_user.html', params)
+
+        user.username = username
+        if password:
+            user.set_password(password)
+        user.email = email
+        user.is_active = active
+        user.save()
+        messages.add_message(request, messages.SUCCESS, 'User "%s" was updated!' % username)
+        return render(request, 'edit_user.html', {'editUser': user})
